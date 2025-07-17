@@ -42,7 +42,7 @@ export const purchaseCourse = async (req, res) => {
         const courseData = await Course.findById(courseId);
 
         if (!userData || !courseData) {
-            res.json({ success: fasle, message: 'User Not Found' });
+            res.json({ success: false, message: 'Data Not Found' });
         }
 
         const purchaseData = {
@@ -62,12 +62,12 @@ export const purchaseCourse = async (req, res) => {
         const line_items = [{
             price_data: {
                 currency,
-                product_Data: {
+                product_data: {
                     name: courseData.courseTitle
                 },
                 unit_amount: Math.floor(newPurchase.amount) * 100,
-                quantity: 1
-            }
+            },
+            quantity: 1,
         }]
 
         const session = await stripeInstance.checkout.sessions.create({
